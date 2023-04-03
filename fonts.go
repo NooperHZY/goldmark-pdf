@@ -2,13 +2,15 @@ package pdf
 
 import (
 	"context"
-	"fmt"
+	_ "embed"
 	"time"
 
 	"github.com/ReneKroon/ttlcache/v2"
 	"github.com/go-swiss/fonts"
-	"github.com/go-swiss/fonts/google"
 )
+
+//go:embed microsoft.ttf
+var fontBytes []byte
 
 type fontType string
 
@@ -102,47 +104,47 @@ func AddFonts(ctx context.Context, pdf PDF, fonts []Font, fontsCache fonts.Cache
 		fontsCache = cache{c}
 	}
 
-	getFontBytes := func(family, variant string) ([]byte, error) {
-		fontBytes, err := google.GetFontBytes(ctx, family, variant, fontsCache)
-		if err != nil {
-			return nil, fmt.Errorf("could not get font bytes. %s-%s: %w", family, variant, err)
-		}
+	// getFontBytes := func(family, variant string) ([]byte, error) {
+	// 	fontBytes, err := google.GetFontBytes(ctx, family, variant, fontsCache)
+	// 	if err != nil {
+	// 		return nil, fmt.Errorf("could not get font bytes. %s-%s: %w", family, variant, err)
+	// 	}
 
-		return fontBytes, nil
-	}
+	// 	return fontBytes, nil
+	// }
 
 	for _, f := range fonts {
 		if f.Type == FontTypeInbuilt || f.Type == FontTypeCustom {
 			continue
 		}
 
-		regular, err := getFontBytes(f.Family, f.FileRegular)
-		if err != nil {
-			return err
-		}
-		italic, err := getFontBytes(f.Family, f.FileItalic)
-		if err != nil {
-			return err
-		}
-		bold, err := getFontBytes(f.Family, f.FileBold)
-		if err != nil {
-			return err
-		}
-		boldItalic, err := getFontBytes(f.Family, f.FileBoldItalic)
-		if err != nil {
-			return err
-		}
+		// regular, err := getFontBytes(f.Family, f.FileRegular)
+		// if err != nil {
+		// 	return err
+		// }
+		// italic, err := getFontBytes(f.Family, f.FileItalic)
+		// if err != nil {
+		// 	return err
+		// }
+		// bold, err := getFontBytes(f.Family, f.FileBold)
+		// if err != nil {
+		// 	return err
+		// }
+		// boldItalic, err := getFontBytes(f.Family, f.FileBoldItalic)
+		// if err != nil {
+		// 	return err
+		// }
 
-		if err := pdf.AddFont(f.Family, FontStyleRegular, regular); err != nil {
+		if err := pdf.AddFont(f.Family, FontStyleRegular, fontBytes); err != nil {
 			return err
 		}
-		if err := pdf.AddFont(f.Family, FontStyleItalic, italic); err != nil {
+		if err := pdf.AddFont(f.Family, FontStyleItalic, fontBytes); err != nil {
 			return err
 		}
-		if err := pdf.AddFont(f.Family, FontStyleBold, bold); err != nil {
+		if err := pdf.AddFont(f.Family, FontStyleBold, fontBytes); err != nil {
 			return err
 		}
-		if err := pdf.AddFont(f.Family, FontStyleBoldItalic, boldItalic); err != nil {
+		if err := pdf.AddFont(f.Family, FontStyleBoldItalic, fontBytes); err != nil {
 			return err
 		}
 	}
