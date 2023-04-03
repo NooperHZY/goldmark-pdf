@@ -1,4 +1,4 @@
-module github.com/stephenafamo/goldmark-pdf
+module github.com/NooerpHZY/goldmark-pdf
 
 go 1.16
 
@@ -9,6 +9,7 @@ require (
 	github.com/go-swiss/fonts v0.0.0-20221219152310-0b267088f53d
 	github.com/phpdave11/gofpdf v1.4.2
 	github.com/signintech/gopdf v0.9.16
+	github.com/stephenafamo/goldmark-pdf v0.2.0
 	github.com/yuin/goldmark v1.2.1
 	google.golang.org/api v0.44.0
 )
