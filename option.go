@@ -95,6 +95,12 @@ func WithCodeFont(f Font) Option {
 	})
 }
 
+func WithBodyColor(color color.Color) Option {
+	return OptionFunc(func(c *Config) {
+		c.Styles.Normal.FillColor = color
+	})
+}
+
 // Set the code block chroma theme
 func WithCodeBlockTheme(theme *chroma.Style) Option {
 	return OptionFunc(func(c *Config) {
